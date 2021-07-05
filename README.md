@@ -1,10 +1,6 @@
 # gis-webApp
 
-Gis WebApp
-
-### Getting start with this project
-
-##### Download the project
+### final-year project
 
 ```bash
 git clone https://github.com/iamtekson/geodjango-app.git
