@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="./lib/leaflet-measure.css" />
+    <link rel="stylesheet" href="./lib/MarkerCluster.css" />
+    <link rel="stylesheet" href="./lib/MarkerCluster.Default.css" />
 
 
     <title>Leaflet GeoProject</title>
@@ -31,6 +33,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="./lib/leaflet.browser.print.min.js"></script>
 <script src="./lib/leaflet-measure.js"></script>
+<script src="./data/test.js"></script>
+<script src="./lib/leaflet.markercluster.js"></script>
 
 <script>
 
@@ -44,9 +48,9 @@
 }).addTo(map);
 
 //Adding marker in the center of map
-L.marker([8.5025, 81.1804]).addTo(map)
+   L.marker([8.5025, 81.1804]).addTo(map)
     .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
+   .openPopup();
 
     //add map scale
 L.control.scale().addTo(map);
@@ -74,12 +78,22 @@ L.control.browserPrint().addTo(map);
 
 //Leaflet Measure
 L.control.measure({
-    primaryLengthUnit: 'kilometer',
+    primaryLengthUnit: 'kilometers',
     secondaryLengthUnit: 'meter',
     primaryAreaUnit: 'sqmeters',
     secondaryAreaUnit: undefined
 }).addTo(map);
 
+//Geojson load (MarkerCluster)
+ var marker = L.markerClusterGroup();
+ var city = L.geoJSON(data, {
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.name)
+     }
+ }
+ );
+ city.addTo(marker);
+ marker.addTo(map);
 
 
 </script>
