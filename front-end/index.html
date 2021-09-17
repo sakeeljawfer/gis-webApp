@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="./lib/MarkerCluster.css" />
     <link rel="stylesheet" href="./lib/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-
+   
+    
 
     <title>Leaflet GeoProject</title>
 
@@ -26,6 +27,7 @@
     <button onclick="fullScreenView()">view in Full Screen </button>
     <div class="coordinate"></div>
     <button class="print-map">Print Map</button>
+    <button class="zoom-to-layer">Zoom to Layer</button>
 </body>
 </html>
 
@@ -38,20 +40,45 @@
 <script src="./lib/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
+
 <script>
 
     // map class initialize 
-    var map = L.map('map').setView([8.5025, 81.1804], 7);
+    var map = L.map('map').setView([8.5025, 81.1804], 12);
     map.zoomControl.setPosition('topright');
 
   // adding osm tilelayer 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+   var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
+var watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 1,
+	maxZoom: 16,
+	ext: 'jpg'
+});
+
+var st = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'png'
+});
+
+//var usgs = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+	//maxZoom: 80,
+	//attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+//});
+
+
+
+
 //Adding marker in the center of map
-   L.marker([8.5025, 81.1804]).addTo(map)
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+   var singleMarker = L.marker([8.5025, 81.1804]).addTo(map)
+    .bindPopup('Location')
    .openPopup();
 
     //add map scale
@@ -95,10 +122,32 @@ L.control.measure({
  }
  );
  city.addTo(marker);
- marker.addTo(map);
+ //marker.addTo(map);
 
  //Leaflet Search Location
  L.Control.geocoder().addTo(map);
 
+ //leaflet layer control
+ var baseMaps = {
+     'OSM': osm,
+     'Water Colour Map': watercolor,
+     'Stamen_Toner': st,
+     //'USGS_Satellite' : usgs
+ }
+var overLayerMaps = {
+    'GeoJSON Marker': marker,
+    'Single Marker' : singleMarker
+}
+
+L.control.layers(baseMaps, overLayerMaps).addTo(map);
+
+//zom to layer 
+$('.zoom-to-layer').click(function(){
+ map.setView([8.5025, 81.1804], 12)
+});
+
+
+
+ 
 
 </script>
