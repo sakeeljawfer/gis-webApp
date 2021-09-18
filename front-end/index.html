@@ -10,24 +10,67 @@
     <link rel="stylesheet" href="./lib/MarkerCluster.css" />
     <link rel="stylesheet" href="./lib/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     
+    <link rel="stylesheet" href="./dist/style.css" />
 
     <title>Leaflet GeoProject</title>
 
-    <style>
-        #map {
-    width: 100%;
-    height:700px;
-}
-    </style>
 </head>
+
 <body>
-    <div id="map"></div>
-    <button onclick="fullScreenView()">view in Full Screen </button>
-    <div class="coordinate"></div>
-    <button class="print-map">Print Map</button>
-    <button class="zoom-to-layer">Zoom to Layer</button>
+
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <a class="navbar-brand" href="#" style="color: black; padding-left: 10px; "><b>GIS Web App</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" style="color:aliceblue"><b>Home</b> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="color:aliceblue"><b>Upload Data</b></a>
+            </li>
+            
+            </ul>
+          
+        </div>
+      </nav>
+
+    <div id="map">
+
+        <!-- Map coordinate  -->
+        <div class="leaflet-control map-coordinate">
+            <div class="coordinate"></div>
+        </div>
+
+        <!-- full browser  -->
+        <div class="leaflet-control full-screen" onclick=fullScreenView()>
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrows-fullscreen" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
+            </svg>
+        </div>
+
+        <!-- zoom to layer  -->
+        <div class="leaflet-control zoom-to-layer">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-house-door" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z" />
+                <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
+            </svg>
+        </div>
+    </div>
+    
+   
+    
+   
 </body>
 </html>
 
@@ -36,118 +79,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="./lib/leaflet.browser.print.min.js"></script>
 <script src="./lib/leaflet-measure.js"></script>
-<script src="./data/test.js"></script>
+
 <script src="./lib/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
+<script src="./data/test.js"></script>
+<script src="./dist/main.js"></script>
+<script src="./dist/web-GIS.js"></script>
 
-<script>
-
-    // map class initialize 
-    var map = L.map('map').setView([8.5025, 81.1804], 12);
-    map.zoomControl.setPosition('topright');
-
-  // adding osm tilelayer 
-   var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-var watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	subdomains: 'abcd',
-	minZoom: 1,
-	maxZoom: 16,
-	ext: 'jpg'
-});
-
-var st = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	subdomains: 'abcd',
-	minZoom: 0,
-	maxZoom: 20,
-	ext: 'png'
-});
-
-//var usgs = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-	//maxZoom: 80,
-	//attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
-//});
-
-
-
-
-//Adding marker in the center of map
-   var singleMarker = L.marker([8.5025, 81.1804]).addTo(map)
-    .bindPopup('Location')
-   .openPopup();
-
-    //add map scale
-L.control.scale().addTo(map);
-
-//Full screen map view
-var mapId = document.getElementById('map');
-function fullScreenView() {
-    if (document.fullscreenElement) {
-        document.exitFullscreen()
-    } else {
-        mapId.requestFullscreen();
-    }
-}
-
-//Map coordinate display
-map.on('mousemove', function (e) {
-    $('.coordinate').html(`Lat: ${e.latlng.lat} Lng: ${e.latlng.lng}`)
-})
-
-//Print Map
-$('.print-map').click(function(){
-    window.print();
-});
-L.control.browserPrint().addTo(map);
-
-//Leaflet Measure
-L.control.measure({
-    primaryLengthUnit: 'kilometers',
-    secondaryLengthUnit: 'meter',
-    primaryAreaUnit: 'sqmeters',
-    secondaryAreaUnit: undefined
-}).addTo(map);
-
-//Geojson load (MarkerCluster)
- var marker = L.markerClusterGroup();
- var city = L.geoJSON(data, {
-    onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.name)
-     }
- }
- );
- city.addTo(marker);
- //marker.addTo(map);
-
- //Leaflet Search Location
- L.Control.geocoder().addTo(map);
-
- //leaflet layer control
- var baseMaps = {
-     'OSM': osm,
-     'Water Colour Map': watercolor,
-     'Stamen_Toner': st,
-     //'USGS_Satellite' : usgs
- }
-var overLayerMaps = {
-    'GeoJSON Marker': marker,
-    'Single Marker' : singleMarker
-}
-
-L.control.layers(baseMaps, overLayerMaps).addTo(map);
-
-//zom to layer 
-$('.zoom-to-layer').click(function(){
- map.setView([8.5025, 81.1804], 11)
-});
-
-
-
- 
-
-</script>
