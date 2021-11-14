@@ -33,3 +33,5 @@ L.control.measure({
 $('.zoom-to-layer').click(function(){
     map.setView([8.5025, 81.1804], 14)
    });
+
+   

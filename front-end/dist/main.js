@@ -3,7 +3,7 @@
     var map = L.map('map').setView([8.5025, 81.1804], 14);
     map.zoomControl.setPosition('topright');
 
-  // adding osm tilelayer 
+  // Adding tilelayer 
    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
